@@ -1,0 +1,19 @@
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://k8s-node01:31112
+functions:
+  gw-guest-new:
+    lang: python3-debian
+    handler: ./gw-guest-new
+    image: management:4567/mdp/rancher/functions/gw-guest-new:latest
+    limits:
+            cpu: 1000m
+    environment:
+            read_timeout: 120s
+            exec_timeout: 120s
+            write_timeout: 120s
+            MINIO_HOST: "minio.default.svc.cluster.local:9000"
+    secrets:
+            - minio
+

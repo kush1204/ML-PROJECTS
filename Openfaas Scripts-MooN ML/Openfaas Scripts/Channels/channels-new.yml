@@ -1,0 +1,19 @@
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://k8s-node01:31112
+functions:
+  channels-new:
+    lang: python3-debian
+    handler: ./channels-new
+    image: management:4567/mdp/rancher/functions/channels-new:latest
+    limits:
+            cpu: 1000m
+    environment:
+            read_timeout: 120s
+            exec_timeout: 120s
+            write_timeout: 120s
+            MINIO_HOST: "minio.default.svc.cluster.local:9000"
+    secrets:
+            - minio
+
